@@ -6,10 +6,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cluster_1 = __importDefault(require("cluster"));
 const os_1 = __importDefault(require("os"));
-const http_1 = __importDefault(require("http"));
 console.log(os_1.default.cpus().length);
 const totalCPUs = os_1.default.cpus().length;
-const port = 2001;
+const port = 3001;
 if (cluster_1.default.isPrimary) {
     console.log(`Number of CPUs is ${totalCPUs}`);
     console.log(`Primary ${process.pid} is running`);
@@ -39,8 +38,7 @@ else {
         }
         res.send(`Final count is ${count} ${process.pid}`);
     });
-    const server = http_1.default.createServer(app);
-    server.listen(port, "127.0.0.1", () => {
-        console.log(`Worker ${process.pid} is listening on port ${port}`);
+    app.listen(port, () => {
+        console.log(`App listening on port ${port}`);
     });
 }
